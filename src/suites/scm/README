@@ -1,0 +1,177 @@
+#
+# CDDL HEADER START
+#
+# The contents of this file are subject to the terms of the
+# Common Development and Distribution License (the "License").
+# You may not use this file except in compliance with the License.
+#
+# You can obtain a copy of the license at usr/src/OPENSOLARIS.LICENSE
+# or http://www.opensolaris.org/os/licensing.
+# See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL HEADER in each
+# file and include the License file at usr/src/OPENSOLARIS.LICENSE.
+# If applicable, add the following below this CDDL HEADER, with the
+# fields enclosed by brackets "[]" replaced with your own identifying
+# information: Portions Copyright [yyyy] [name of copyright owner]
+#
+# CDDL HEADER END
+#
+
+#
+# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# ident	"@(#)README	1.4	07/06/25 SMI"
+#
+
+DESCRIPTION:
+===========
+This test suite is designed to test the functionality of the iscsi
+target software level creation utility.  If configured the test
+suite will also confirm the target creation and configurations,
+use the iscsiadm command to make connections to the target and further
+verify the functionality of the iscsitadm command.
+
+PREREQUISITES:
+============
+1. A spare disk is required for this test suite to use for its work.
+
+2. There should be no iscsi targets configured via the iscsitadm 
+command.
+
+3. The cti-tet test harness lite package is required to be installed,
+or be accessible via nfs.
+
+4. If a second host is to be used to check with the iscsiadm command,
+that host should accept rcp and rsh calls from the test host.
+
+CTI-TET PACKAGE INSTALLATION:
+===========================
+As root do the following :
+
+In the majority of cases, the test suite can be installed from packages. The
+package is called SUNWstc-tetlite and installs into "/opt" by default. 
+Installation is via the standard Solaris package installation tool pkgadd(1m). 
+To install SUNWstc-tetlite simply enter the following command line:
+
+# pkgadd -d <package location>  SUNWstc-tetlite
+
+Where <package location> refers to the path containing the SUNWstc-tetlite
+package directory.
+
+o It is recommended that you install the packages from scratch,
+rather than on top of an existing installation.  Thus, if an old
+version of the tests is installed:
+
+# pkgrm SUNWstc-tetlite
+
+It is also acceptable to use an nfs accessible version of the SUNWstc-tetlite
+package.
+
+
+TEST SUITE INSTALLATION :
+=======================
+
+As root do the following :
+
+In the majority of cases, the test suite can be installed from packages. The
+package is called SUNWstc-iSCSI and installs into "/opt" by default. 
+Installation is via the standard Solaris package installation tool pkgadd(1m). 
+To install SUNWstc-iSCSI simply enter the following command line:
+
+# pkgadd -d <package location>  SUNWstc-iSCSI
+
+Where <package location> refers to the path containing the SUNWstc-iSCSI
+package directory.
+
+o It is recommended that you install the packages from scratch,
+rather than on top of an existing installation.  Thus, if an old
+version of the tests is installed:
+
+# pkgrm SUNWstc-iSCSI
+
+It is also acceptable to use an nfs accessible version of the SUNWstc-iSCSI
+package.
+
+
+The test suite source can also be installed locally, built in the source
+tree and run from that location.
+
+As any user do the following after installing the test suite source :
+1. TET_ROOT=/opt/SUNWstc-tetlite
+2. export TET_ROOT
+3. CTI_ROOT=$TET_ROOT/contrib/ctitools
+4. export CTI_ROOT
+5. TET_SUITE_ROOT=/export/home/cti_iscsi/src/suites (e.g location)
+6. export TET_SUITE_ROOT
+7. cd $TET_SUITE_ROOT/iSCSI
+8. /usr/ccs/bin/make
+
+
+TEST SUITE CONFIGURATION :
+========================
+
+As root do the following steps :
+
+1. Set the following environment variables
+	export TET_ROOT=/opt/SUNWstc-tetlite
+	export CTI_ROOT=$TET_ROOT/contrib/ctitools
+	export TET_SUITE_ROOT=/opt/SUNWstc-iSCSI (installation path of suite)
+	PATH=$PATH:$CTI_ROOT/bin
+	export PATH
+
+2. To configure the test suite :
+
+# run_test -v iscsi_disk=c0t1d0 iSCSI configure
+
+Other configurable variables that can be set in the configuration line :
+
+FSCONFIGTYPE	- [ ufs || zfs ] default ufs
+THINPROV	- [ on || off ] default off
+target_ip	- [ iscsi target ip address to use for initiator ] default null
+iscsiadm_ip	- [ iscsi initiator ip address ] default null
+online_wait	- [ number of 5 second intervals to wait for initiator ] 24
+verbose		- [ TRUE || FALSE ] default FALSE
+
+TEST SUITE EXECUTION :
+====================
+
+The test suite executions is required to be done as root.
+
+If not already done, from the configuration phase do the following to 
+set the environment variables :
+
+	export TET_ROOT=/opt/SUNWstc-tetlite
+	export CTI_ROOT=$TET_ROOT/contrib/ctitools
+	export TET_SUITE_ROOT=/opt/SUNWstc-iSCSI (installation path of suite)
+	PATH=$PATH:$CTI_ROOT/bin
+	export PATH
+
+To run the entire test suite do the following.
+
+# run_test iSCSI
+
+To execute individual scenarios (create modify delete)
+
+# run_test iSCSI <scenario>
+
+# run_test iSCSI create
+
+To execute Test Purposes within a scenario :
+
+run_test iSCSI iscsitadm/<test case dir>:<test purpose number>
+
+# run_test iSCSI iscsitadm/create:1
+
+Test case directories are create, modify and delete
+
+TEST SUITE UNCONFIGURE :
+======================
+
+The unconfiguration of the test suite simply takes out the configuration file
+for the current host, so that an nfs mounted point for execution can be used.
+This does not unconfigure any iscsi targets etc from the host.
+
+# run_test iSCSI unconfigure

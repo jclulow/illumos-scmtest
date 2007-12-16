@@ -39,12 +39,12 @@ tet_startup="startup"
 tet_cleanup="cleanup"
 
 #
-# The list of invocable components for this test case set.
-# All the components are a 1:1 relation to each test purpose.
+# Test list of test purpose functions.
 #
-iclist="ic1 ic2"
-ic1="tp_example_001"
-ic2="tp_example_002"
+test_list="
+	tp_example_001 \
+	tp_example_002 \
+"
 
 #
 # Source in each of the test purpose files that are associated with

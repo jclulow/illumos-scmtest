@@ -24,17 +24,13 @@
 # Use is subject to license terms.
 #
 
-all
-	^tools
+#
+# This Makefile is used to tell the make to build (or clean) the
+# sub-directories for the tests.
+#
 
-tools
-	^example
+include $(TET_SUITE_ROOT)/scm/Targetdirs
 
-example
-	/tests/tools/example/tc_example
+all clean clobber lint install :
 
-configure
-        /tests/configure/configure{1}
-
-unconfigure
-        /tests/configure/configure{2}
+include $(CTI_ROOT)/Makefiles/Makefile.targ

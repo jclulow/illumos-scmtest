@@ -30,7 +30,8 @@
 #
 
 TARGET_KSH 	=	tc_example \
-			tp_example_001
+			tp_example_001 \
+			tp_example_002
 
 INSTOBJS	= $(TARGET_KSH:%=$(ROOT)/tests/tools/example/%)
 

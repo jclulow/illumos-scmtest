@@ -51,7 +51,7 @@
 
 tp_example_001()
 {
-	cti_assert ASSERT_001 "tp_example_001 test purpose"
+	cti_assert 001 "Simple example test 1"
 	cti_report "testing 1, 2, 3"
 	cti_pass "tp_example_001 passed"   
 }

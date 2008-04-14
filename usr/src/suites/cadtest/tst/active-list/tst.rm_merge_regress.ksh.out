@@ -1,0 +1,13 @@
+------ Parent first --------
+modified:
+	c
+	d
+removed:
+	i
+
+------ Local first --------
+modified:
+	c
+	d
+removed:
+	i

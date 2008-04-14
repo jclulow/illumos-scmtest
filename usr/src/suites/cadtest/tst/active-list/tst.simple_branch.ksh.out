@@ -1,0 +1,21 @@
+--- Second Branch
+-- Uncommitted
+modified:
+	b
+-- Committed
+modified:
+	b
+-- Comments
+Head 2
+--- Other Branch
+-- Committed
+modified:
+	a
+-- Comments
+Head 1
+--- No Branch
+-- Committed
+modified:
+	b
+-- Comments
+Head 2

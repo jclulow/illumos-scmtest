@@ -1,0 +1,12 @@
+-- Uncommitted
+added:
+	rename1 (copied from a)
+	rename2 (copied from a)
+modified:
+	b (copied from a)
+-- Committed
+added:
+	rename1 (copied from a)
+	rename2 (copied from a)
+modified:
+	b (copied from a)

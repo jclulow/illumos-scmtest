@@ -1,0 +1,10 @@
+-- Uncommitted
+added:
+	rename2 (renamed from b)
+removed:
+	a
+-- Committed
+added:
+	rename2 (renamed from b)
+removed:
+	a

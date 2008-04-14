@@ -1,0 +1,21 @@
+-- Uncommitted
+ -- Parent
+modified:
+	c
+	d
+	e
+	f
+ -- Child
+added:
+	renamed (renamed from a)
+
+-- Committed
+ -- Parent
+modified:
+	c
+	d
+	e
+	f
+ -- Child
+added:
+	renamed (renamed from a)

@@ -51,7 +51,7 @@ fi
     
 HG=${HG:-hg}
 BASEDIR=$HARNESSDIR/results/$RESULTDIR
-BACKUPDIR=$BASEDIR/cdm.backup.$$/
+export BACKUPDIR=$BASEDIR/cdm.backup.$$/
 export HG="$HG --config cdm.backupdir=$BACKUPDIR"
 
 mkdir -p $BASEDIR

@@ -1,0 +1,3 @@
+Error: Unable to backup an uncommitted merge.
+Please complete your merge and commit
+abort: Backup failed

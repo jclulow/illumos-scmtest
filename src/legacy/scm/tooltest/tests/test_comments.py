@@ -21,7 +21,7 @@
 #
 
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 # ident	"%Z%%M%	%I%	%E% SMI"
@@ -44,8 +44,14 @@ class TestComments(unittest.TestCase):
 		return out.getvalue()
 	
 	def testBlanks(self):
-		'comchk with blank in  comments'
+		'comchk with blank in comments'
 		self.assertEquals(self.comchk(['\n'], False),
+				  'WARNING: Blank line(s) in comments\n')
+
+		self.assertEquals(self.comchk([''], False),
+				  'WARNING: Blank line(s) in comments\n')
+
+		self.assertEquals(self.comchk([' \t\n'], False),
 				  'WARNING: Blank line(s) in comments\n')
 
 	def testNoSpace(self):

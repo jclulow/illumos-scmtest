@@ -18,7 +18,7 @@ $HG add new-file
 $HG ci -m "Add new-file"
 
 # Unmake changes
-hg cat -r0 a > a
+$HG cat -r0 a > a
 $HG ci -m "Unchange a"
 $HG mv new_b b
 $HG ci -m "Unrename b"
@@ -31,8 +31,9 @@ $HG ci -m "Unadd new-file"
 echo "--- Pre reci"
 $HG list			     # Should be blank
 $HG tip --template '{rev}\n{desc}\n'  # Should be Unadd new-file
+echo
 $HG reci -m "Recommit" || exit 254
-
+echo
 echo "--- Post reci"
 $HG list			     # Should still be blank
 $HG tip --template '{rev}\n{desc}\n' # Should be rev 0

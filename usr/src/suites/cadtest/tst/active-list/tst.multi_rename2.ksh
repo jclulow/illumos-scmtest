@@ -6,8 +6,6 @@ $HG ci -m "One"
 $HG mv -f rename1 b
 $HG ci -m "Two"
 $HG mv b rename2
-#$HG ci -m "Three"
-#$HG mv rename2 rename1
 
 echo "-- Uncommitted"
 $HG list

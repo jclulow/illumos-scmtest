@@ -1,0 +1,8 @@
+6 changesets found
+Removed tags:
+  repoflush 3
+  repooverkeep 5
+  localflush 4 (local)
+  localoverkeep 6 (local)
+tag localoverkeep now refers to revision 0
+tag repooverkeep now refers to revision 0

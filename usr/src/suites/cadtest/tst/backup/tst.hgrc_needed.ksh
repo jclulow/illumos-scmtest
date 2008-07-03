@@ -12,7 +12,7 @@ echo "foo = bar" >> .hg/hgrc
 # Size changed, should backup
 ($HG backup -t | grep 'backup is up-to-date') && exit 251
 
-sleep 1				# Mtime
+sleep 1
 
 # Only mtime and contents changed
 sed -e '$s/bar$/foo/' < .hg/hgrc > .hg/hgrc.tmp && mv .hg/hgrc.tmp .hg/hgrc

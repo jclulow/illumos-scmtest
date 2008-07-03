@@ -80,7 +80,7 @@ print "done"
 if [[ -z $1 ]]; then
 	TESTS=$HARNESSDIR/tst
 else
-	TESTS=$1
+	TESTS="$@"
 fi
 
 

@@ -4,30 +4,24 @@ cd $REPOS/mq-needed
 $HG backup
 
 # No change, should tell me so
-$HG backup -t >> backup.out.$$ || exit 248
-/usr/xpg4/bin/grep -q 'backup is up-to-date' backup.out.$$|| exit 249
+($HG backup -t | grep 'backup is up-to-date') || exit 248
 
-sleep 1				# mtime?
-
-hg qinit
+$HG qinit
 
 # Patch queue is new, should backup
-$HG backup -t || exit 250
-/usr/xpg4/bin/grep -q 'backup is up-to-date' backup.out.$$ || exit 251
+($HG backup -t | grep 'backup is up-to-date') && exit 250
 
-hg qnew -g foo-diff
+$HG qnew -g foo-diff
 echo a >> a
-hg qrefresh
-hg qpop
+$HG qrefresh
+$HG qpop
 
 # Patch created, should backup
-$HG backup -t || exit 252
-/usr/xpg4/bin/grep -q 'backup is up-to-date' backup.out.$$ || exit 253
+($HG backup -t | grep 'backup is up-to-date') && exit 252
 
-hg qdelete foo-diff
+$HG qdelete foo-diff
 
 # Patch removed, should backup
-$HG backup -t || exit 254
-/usr/xpg4/bin/grep -q 'backup is up-to-date' backup.out.$$ || exit 255
+($HG backup -t grep 'backup is up-to-date') && exit 254
 
 exit 0				# So we don't exit as the grep above did

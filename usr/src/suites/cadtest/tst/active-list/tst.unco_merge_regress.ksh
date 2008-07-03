@@ -6,34 +6,34 @@ $HG clone -q $BASEWS $REPOS/unco_merge_regress
 cd $REPOS/unco_merge_regress
 
 $HG mv a new-a
-$HG ci -m "One"
+$HG ci -qm "One"
 
 $HG cp b new-b
-$HG ci -m "Two"
+$HG ci -qm "Two"
 
 $HG rm c
-$HG ci -m "Three"
+$HG ci -qm "Three"
 
 touch new-1
 $HG add new-1
-$HG ci -m "Four"
+$HG ci -qm "Four"
 
 
 $HG up -qC 0
 
 
 $HG mv d new-d
-$HG ci -m "Five"
+$HG ci -qm "Five"
 
 $HG cp e new-e
-$HG ci -m "Six"
+$HG ci -qm "Six"
 
 $HG rm f
-$HG ci -m "Seven"
+$HG ci -qm "Seven"
 
 touch new-2
 $HG add new-2
-$HG ci -m "Eight"
+$HG ci -qm "Eight"
 
 $HG up -qC 4
 

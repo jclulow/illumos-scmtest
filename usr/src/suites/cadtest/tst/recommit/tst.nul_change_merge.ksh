@@ -28,7 +28,9 @@ echo "--- Pre reci"
 $HG list
 $HG tip --template '{rev}\n{desc}\n' # Should be merge
 
+echo
 $HG reci -m "Test" 2> reci.stderr || (cat reci.stderr > /dev/stderr; exit 253)
+echo
 
 grep -v '^saving bundle' reci.stderr > /dev/stderr	# Dump stderr back in, sans strip crud
 

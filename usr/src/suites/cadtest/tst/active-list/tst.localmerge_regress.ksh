@@ -3,7 +3,7 @@ cd $REPOS/localmerge-regress
 
 touch new_file
 $HG add new_file
-$HG ci -m "Add new_file"
+$HG ci -qm "Add new_file"
 
 $HG up -qC 0
 
@@ -11,7 +11,7 @@ for i in *; do
 	echo $i >> $i
 done
 
-$HG ci -m "Modify files"
+$HG ci -qm "Modify files"
 
 $HG -q merge
 

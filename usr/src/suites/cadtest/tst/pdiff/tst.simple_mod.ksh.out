@@ -1,18 +1,18 @@
 diff
 --- a/a
 +++ b/a
-@@ -1,1 +1,2 @@ This is file a
+@@ -1,1 +1,2 @@
  This is file a
 +With an extra line
 diff
 --- a/b
 +++ b/b
-@@ -1,1 +1,1 @@ This is file b
+@@ -1,1 +1,1 @@
 -This is file b
 +This here is file b
 diff
 --- a/c
 +++ b/c
-@@ -1,1 +1,1 @@ This is file c
+@@ -1,1 +1,1 @@
 -This is file c
 +..............

@@ -95,7 +95,7 @@ cd $REPOS/rm-merge-regress/child2
 echo c >> c
 $HG ci -m "Local Modify"
 
-firsthead=$(hg parent --template '{rev}\n')
+firsthead=$($HG parent --template '{rev}\n')
 
 # Bringover the added file from the parent (our rev3, head of second branch)
 $HG pull -qr2 $REPOS/rm-merge-regress/parent

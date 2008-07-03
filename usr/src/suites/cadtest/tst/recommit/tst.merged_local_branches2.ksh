@@ -4,9 +4,9 @@ $HG clone -q $BASEWS $REPOS/merged-local-branches2/parent
 cd $REPOS/merged-local-branches2/parent
 
 echo "mod a" >> a
-$HG ci -m "Revision 1"
+$HG ci -qm "Revision 1"
 echo "mod b" >> b
-$HG ci -m "Revision 2"
+$HG ci -qm "Revision 2"
 
 $HG clone -q $REPOS/merged-local-branches2/parent $REPOS/merged-local-branches2/child
 cd $REPOS/merged-local-branches2/child
@@ -16,17 +16,17 @@ cd $REPOS/merged-local-branches2/child
 #
 for i in *; do
 	echo $i >> $i
-	$HG ci -m "Head $i"
-	hg up -qC $((RANDOM % 3))
+	$HG ci -qm "Head $i"
+	$HG up -qC $((RANDOM % 3))
 done
 
 #
 # Merge them all
 # 
-hg up -qC 3
-for i in $(hg log -r4:tip --template '{rev}\n'); do
+$HG up -qC 3
+for i in $($HG log -r4:tip --template '{rev}\n'); do
 	HGMERGE=/bin/true hg -q merge $i
-	hg ci -m "Merge $i"
+	$HG ci -m "Merge $i"
 done
 
 ksh $HARNESSDIR/tst/recommit/compare_reci.ksh $REPOS/merged-local-branches2/child

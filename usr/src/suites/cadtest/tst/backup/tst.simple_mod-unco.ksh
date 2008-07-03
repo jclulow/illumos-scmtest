@@ -1,8 +1,6 @@
 $HG -q clone $BASEWS $REPOS/simple-mod-unco
 cd $REPOS/simple-mod-unco
 
-sleep 1
-
 echo "With an extra line" >> a
 
 sed -e 's/This/This here/' < b > b.tmp

@@ -15,17 +15,17 @@ cd $REPOS/merged-local-branches
 #
 for i in *; do
 	echo $i >> $i
-	$HG ci -m "Head $i"
-	hg up -qC 0
+	$HG ci -qm "Head $i"
+	$HG up -qC 0
 done
 
 #
 # Merge them all
 # 
-hg up -qC 1
-for i in $(hg log -r2:tip --template '{rev}\n'); do
-	hg -q merge $i
-	hg ci -m "Merge $i"
+$HG up -qC 1
+for i in $($HG log -r2:tip --template '{rev}\n'); do
+	$HG -q merge $i
+	$HG ci -m "Merge $i"
 done
 
 ksh $HARNESSDIR/tst/recommit/compare_reci.ksh $REPOS/merged-local-branches

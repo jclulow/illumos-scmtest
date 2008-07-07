@@ -1,0 +1,15 @@
+Checking for multiple heads (or branches):
+
+Checking for branch changes:
+Warning: Workspace tip has named branch: 'look-at-me-im-special'
+Only gatekeepers should push new branches.
+Use the following commands to restore the branch name:
+  hg branch [-f] default
+  hg commit
+You should also recommit before integration
+
+2 changesets found
+
+Checking for multiple heads (or branches):
+
+Checking for branch changes:

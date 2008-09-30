@@ -21,10 +21,8 @@
 #
 
 #
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
-#
-# ident	"%Z%%M%	%I%	%E% SMI"
 #
 
 #
@@ -89,6 +87,22 @@ class TestMonaco(unittest.TestCase):
 		"monaco sub-category lookup"
 		bug = self.m.queryBugs(['6442524'])['6442524']
 		self.assertEqual(bug['sub_category'], 'configuration')
+
+	def testPipeSynopsis(self):
+		"Monaco bug with | in synopsis"
+		bug = self.m.queryBugs(['6350233'])['6350233']
+		self.assertEqual(bug['synopsis'],
+				 'Cannot rename filesystem|volume '
+				 'while it has dependent clones')
+
+	def testMultiple(self):
+		"Monaco lookup of multiple CRs"
+		bugs = self.m.queryBugs(['6282504', '4508683'])
+		self.assertEqual(bugs['6282504']['synopsis'],
+                                 'ifconfig frees malloced buffer twice')
+		self.assertEqual(bugs['4508683']['synopsis'],
+				 'iked debug messages need to be '
+				 'more descriptive')
 
 
 # Be careful here to *only* reference bugs available via b.o.o

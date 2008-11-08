@@ -38,66 +38,71 @@ from onbld.Checks import onSWAN
 class TestBooBug(unittest.TestCase):
 	def testNonExistent(self):
 		"b.o.o lookup of nonexistent CR"
-		self.assertRaises(DbLookups.NonExistentBug, DbLookups.BooBug,
-				  '9999999')
-
+		a = DbLookups.BugDB(forceBoo = True)
+		b = a.lookup("9999999")
+		self.assertFalse("9999999" in b )
+	
 	def testSynopsis(self):
 		"b.o.o synopsis lookup"
-		b = DbLookups.BooBug('6442524')
-		self.assertEqual(b.synopsis(),
+		b = DbLookups.BugDB(forceBoo = True)
+		a = b.lookup("6442524")
+		self.assertEqual(a["6442524"]["synopsis"],
 				 '*hostname* hostname(1) should use '
 				 'set/gethostname(3c) rather than sysinfo(2)')
 
 	def testProduct(self):
 		"b.o.o product lookup"
-		b = DbLookups.BooBug('6442524')
-		self.assertEqual(b.product(), 'solaris')
+		b = DbLookups.BugDB(forceBoo = True)
+		a = b.lookup("6442524")
+		self.assertEqual(a["6442524"]["product"], 'solaris')
 
 	def testCat(self):
 		"b.o.o category lookup"
-		b = DbLookups.BooBug('6442524')
-		self.assertEqual(b.cat(), 'utility')
+		b = DbLookups.BugDB(forceBoo = True)
+		a = b.lookup('6442524')
+		self.assertEqual(a["6442524"]["category"], 'utility')
 
 	def testSubCat(self):
 		"b.o.o sub-category lookup"
-		b = DbLookups.BooBug('6442524')
-		self.assertEqual(b.subcat(), 'configuration')
+		b = DbLookups.BugDB(forceBoo = True)
+		a = b.lookup('6442524')
+		self.assertEqual(a["6442524"]["sub_category"], 'configuration')
 
 class TestMonaco(unittest.TestCase):
 	def setUp(self):
-		self.m = DbLookups.Monaco()
+		self.m = DbLookups.BugDB()
 
 	def testNonExistent(self):
 		"monaco lookup of nonexistent CR"
-		self.failIf(self.m.queryBugs(['9999999']).has_key('9999999'))
+		self.failIf(self.m.lookup(['9999999']).has_key('9999999'))
 		
 	def testSynopsis(self):
 		"monaco synopsis lookup"
-		bug = self.m.queryBugs(['6442524'])['6442524']
+		bug = self.m.lookup(['6442524'])['6442524']
 		self.assertEqual(bug['synopsis'],
 				 '*hostname* hostname(1) should use '
 				 'set/gethostname(3c) rather than sysinfo(2)')
 
 	def testCat(self):
 		"monaco category lookup"
-		bug = self.m.queryBugs(['6442524'])['6442524']
+		bug = self.m.lookup(['6442524'])['6442524']
 		self.assertEqual(bug['category'], 'utility')
 
 	def testSubCat(self):
 		"monaco sub-category lookup"
-		bug = self.m.queryBugs(['6442524'])['6442524']
+		bug = self.m.lookup(['6442524'])['6442524']
 		self.assertEqual(bug['sub_category'], 'configuration')
 
 	def testPipeSynopsis(self):
 		"Monaco bug with | in synopsis"
-		bug = self.m.queryBugs(['6350233'])['6350233']
+		bug = self.m.lookup(['6350233'])['6350233']
 		self.assertEqual(bug['synopsis'],
 				 'Cannot rename filesystem|volume '
 				 'while it has dependent clones')
 
 	def testMultiple(self):
 		"Monaco lookup of multiple CRs"
-		bugs = self.m.queryBugs(['6282504', '4508683'])
+		bugs = self.m.lookup(['6282504', '4508683'])
 		self.assertEqual(bugs['6282504']['synopsis'],
                                  'ifconfig frees malloced buffer twice')
 		self.assertEqual(bugs['4508683']['synopsis'],
@@ -151,13 +156,6 @@ class TestRTI(unittest.TestCase):
 		self.assertRaises(DbLookups.RtiNotFound, DbLookups.Rti,
 				  '124124', "/ws/onnv-stc2")
 
-	def testMultipleLines(self):
-		"rti lookup returning multiple lines"
-		self.assertRaises(DbLookups.RtiInvalidOutput, DbLookups.Rti,
-				  '6227559')
-		self.assertRaises(DbLookups.RtiInvalidOutput, DbLookups.Rti,
-				  '6227559', None, "on")
-
 	def testGoodBadRTI(self):
 		"rti lookup of multiple bugs, some invalid"
 		self.assertRaises(DbLookups.RtiIncorrectCR, DbLookups.Rti,
@@ -178,8 +176,8 @@ class TestRTI(unittest.TestCase):
 
 	def testValidNotAccepted(self):
 		"rti lookup of RTI that is not accepted"
-		self.failIf(DbLookups.Rti('6227559', "on10-patch").accepted())
-		self.failIf(DbLookups.Rti('6227559', "on28-patch").accepted())
+		self.failIf(DbLookups.Rti('6227559', "on10-patch", "on").accepted())
+		self.failIf(DbLookups.Rti('6227559', "on28-patch", "on").accepted())
 
 	def testValidNonON(self):
 		"rti lookup of valid bug in test gate"

@@ -25,7 +25,7 @@ done
 # 
 $HG up -qC 3
 for i in $($HG log -r4:tip --template '{rev}\n'); do
-	HGMERGE=/bin/true hg -q merge $i
+	HGMERGE=/bin/true $HG -q merge $i
 	$HG ci -m "Merge $i"
 done
 

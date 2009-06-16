@@ -21,7 +21,7 @@
 #
 
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
 
@@ -184,33 +184,14 @@ class TestComments(unittest.TestCase):
 		self.failIf(self.comchk(['5051903 Ypserv memory leak (fix lint)'],
 					check_db=True))
 
-
 		coms = ['PSARC 2006/051 av1394 interface promotion',
 			'PSARC/2006/484 USB Video Class Driver',
 			'PSARC\t2006/384 SATA AHCI HBA driver',
-			'WSARC 2007/112 Project Kenai: JBI runtime and clustering']
+			'WSARC 2007/112 Project Kenai: JBI runtime and clustering support']
 		self.failIf(self.comchk(coms, check_db=True))
 
-	def testValidOverLong(self):
-		"comchk with valid, but over-length ARC comments"
-		self.failIf(self.comchk(['PSARC 2006/384 SATA AHCI HBA driver (fix lint)'],
-					check_db=True))
-
 		self.failIf(self.comchk(['PSARC/2005/679 SATA HBA Framework Support (Updated) (fix unref)'],
-					check_db=True))
-
-		self.failIf(self.comchk(['PSARC/2005/679 SATA HBA Framework Support (Updated)'],
-					check_db=True))
-
-		self.failUnless(self.comchk(['PSARC/2005/679 SATA HBA Framework Support'],
-					check_db=True))
-
-		self.failIf(self.comchk(["PSARC/2007/394 ls(1) new command line options '-/' and '-%': CIFS system attributes support"],
-					check_db=True))
-
-		self.failIf(self.comchk(['PSARC/2007/499 Automatic discovery of network attached printers'],
-					check_db=True))
-
+								check_db=True))
 
 if __name__ == '__main__':
 	unittest.main()

@@ -25,4 +25,4 @@
 # Use is subject to license terms.
 #
 
-$HG pdiffs -g -R $REPOS/simple-add
+ksh $HARNESSDIR/tst/recommit/compare_reci.ksh $REPOS/empty-parent

@@ -25,4 +25,14 @@
 # Use is subject to license terms.
 #
 
-$HG pdiffs -g -R $REPOS/simple-add
+$HG clone -q $EMPTYWS $REPOS/empty-parent
+cd $REPOS/empty-parent
+
+echo a > a
+$HG add a
+
+echo "--- Uncommitted"
+$HG list
+echo "--- Committed"
+$HG ci -qm "Committed"
+$HG list

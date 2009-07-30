@@ -25,4 +25,10 @@
 # Use is subject to license terms.
 #
 
-$HG pdiffs -g -R $REPOS/simple-add
+$HG -q clone $EMPTYWS $REPOS/empty-parent-unco
+cd $REPOS/empty-parent-unco
+
+echo abcd > a
+$HG add a
+
+ksh $HARNESSDIR/tst/backup/compare_bu_restore.ksh $REPOS/empty-parent-unco

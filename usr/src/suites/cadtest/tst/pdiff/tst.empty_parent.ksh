@@ -25,4 +25,5 @@
 # Use is subject to license terms.
 #
 
-$HG pdiffs -g -R $REPOS/simple-add
+$HG pdiffs -g -R $REPOS/empty-parent
+

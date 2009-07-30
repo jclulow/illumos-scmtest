@@ -21,10 +21,8 @@
 #
 
 #
-# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
-#
-# ident "%Z%%M% %I%     %E% SMI"
 #
 
 HARNESSDIR=$(cd $(dirname $0) && pwd)
@@ -58,6 +56,7 @@ mkdir -p $BASEDIR
 
 export REPOS=$BASEDIR/repos.$$
 export BASEWS=$REPOS/basews
+export EMPTYWS=$REPOS/emptyws
 export HARNESSDIR
 mkdir -p $REPOS
 
@@ -75,6 +74,7 @@ for elt in a b c d e f g h; do
 done
 $HG ci -m "Baseline"
 cd $BASEDIR
+$HG init $EMPTYWS
 print "done"
 
 if [[ -z $1 ]]; then

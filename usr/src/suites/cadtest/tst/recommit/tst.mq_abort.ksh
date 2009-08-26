@@ -25,20 +25,16 @@
 # Use is subject to license terms.
 #
 
-cp -r $REPOS/simple-rename $REPOS/squish-rename-copy-regress
-cd $REPOS/squish-rename-copy-regress
+$HG clone -q $BASEWS $REPOS/mq-abort
+cd $REPOS/mq-abort
 
-touch a b			# create the source halves of the rename
+HG="$HG --config extensions.hgext.mq="     # Enable Mq
 
-#
-# NB: hackity hack, sending stderr to stdout here allows us to use the
-#   output comparison to trip if the bogus file list isn't what we
-#   expect.  Obviously, this relies on *nothing else* going to stdout,
-#   unless in situations where we'd otherwise fail...
-#
-$HG reci -m "Test Squish" > /tmp/reci.$$.out 2>&1
-err=$?
-grep -iv "\[y/n\]" /tmp/reci.$$.out
-rm /tmp/reci.$$.out
-(( $err == 0 )) && exit 250 # should fail, because we default to "No"
+$HG qinit
+$HG qnew some-patch
+echo a >> a
+echo b >> b
+$HG qrefresh
+
+$HG reci -qym "Recommit" && exit 255
 exit 0

@@ -25,20 +25,50 @@
 # Use is subject to license terms.
 #
 
-cp -r $REPOS/simple-rename $REPOS/squish-rename-copy-regress
-cd $REPOS/squish-rename-copy-regress
+$HG clone -q $BASEWS $REPOS/reparent-ws
+cd $REPOS/reparent-ws
 
-touch a b			# create the source halves of the rename
+fail() {
+	print -u2 "$@"
+	exit 255
+}
 
-#
-# NB: hackity hack, sending stderr to stdout here allows us to use the
-#   output comparison to trip if the bogus file list isn't what we
-#   expect.  Obviously, this relies on *nothing else* going to stdout,
-#   unless in situations where we'd otherwise fail...
-#
-$HG reci -m "Test Squish" > /tmp/reci.$$.out 2>&1
-err=$?
-grep -iv "\[y/n\]" /tmp/reci.$$.out
-rm /tmp/reci.$$.out
-(( $err == 0 )) && exit 250 # should fail, because we default to "No"
-exit 0
+reparent() {
+	$HG reparent $1 || fail "Reparent to $1 failed"
+	[[ $($HG path default) == $1 ]] || \
+	    fail "Parent mismatch $1 v. $($HG path default)"
+}
+
+reparent $PWD/cadtest-foo
+reparent $BASEWS
+
+rm .hg/hgrc
+reparent $PWD/no-hgrc
+
+cp /dev/null .hg/hgrc
+reparent $PWD/empty-hgrc
+
+cat <<EOF > .hg/hgrc
+[paths]
+default = /foo/bar/baz
+  continued 
+  onto
+  more
+  lines
+EOF
+reparent $PWD/continuation-lines
+
+# Make sure the continued bits were removed
+(( $(wc -l .hg/hgrc | awk '{print $1}') == 3 )) || exit 254
+
+cat <<EOF >.hg/hgrc
+[paths]
+default = foo
+bar = baz
+
+[other-section]
+default = test test
+
+EOF
+reparent $PWD/other-default
+[[ $(sed -ne 6p .hg/hgrc) == "default = test test" ]] || exit 255

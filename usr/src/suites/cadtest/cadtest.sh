@@ -46,8 +46,14 @@ if [[ -z "$RESULTDIR" ]]; then
 	print -u2 "You must specify a test result name, with -t"
 	exit 2
 fi
-    
+
 HG=${HG:-hg}
+
+if [[ ! -x $(which $HG) ]]; then
+	print -u2 "Could not find Hg executable '$HG'"
+	exit 2
+fi
+
 BASEDIR=$HARNESSDIR/results/$RESULTDIR
 export BACKUPDIR=$BASEDIR/cdm.backup.$$/
 export HG="$HG --config cdm.backupdir=$BACKUPDIR"

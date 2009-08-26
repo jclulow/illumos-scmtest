@@ -25,20 +25,34 @@
 # Use is subject to license terms.
 #
 
-cp -r $REPOS/simple-rename $REPOS/squish-rename-copy-regress
-cd $REPOS/squish-rename-copy-regress
+$HG clone -q $BASEWS $REPOS/not-files
+cd $REPOS/not-files
 
-touch a b			# create the source halves of the rename
+mkdir .hg/cdm/
 
-#
-# NB: hackity hack, sending stderr to stdout here allows us to use the
-#   output comparison to trip if the bogus file list isn't what we
-#   expect.  Obviously, this relies on *nothing else* going to stdout,
-#   unless in situations where we'd otherwise fail...
-#
-$HG reci -m "Test Squish" > /tmp/reci.$$.out 2>&1
-err=$?
-grep -iv "\[y/n\]" /tmp/reci.$$.out
-rm /tmp/reci.$$.out
-(( $err == 0 )) && exit 250 # should fail, because we default to "No"
+for i in a b c d e f; do
+	echo $i >> $i
+done
+
+cat <<EOF > .hg/cdm/copyright.NOT
+a
+
+syntax:glob
+b
+
+syntax:regexp
+c+
+
+re:d+
+
+glob:e*
+
+EOF
+
+echo "-- Top level"
+$HG copyright -q
+echo
+echo "-- Subdirectory"
+mkdir subdir && cd subdir
+$HG copyright -q
 exit 0

@@ -25,20 +25,7 @@
 # Use is subject to license terms.
 #
 
-cp -r $REPOS/simple-rename $REPOS/squish-rename-copy-regress
-cd $REPOS/squish-rename-copy-regress
+$HG clone -q $BASEWS $REPOS/nonexistent-parent
+cd $REPOS/nonexistent-parent
 
-touch a b			# create the source halves of the rename
-
-#
-# NB: hackity hack, sending stderr to stdout here allows us to use the
-#   output comparison to trip if the bogus file list isn't what we
-#   expect.  Obviously, this relies on *nothing else* going to stdout,
-#   unless in situations where we'd otherwise fail...
-#
-$HG reci -m "Test Squish" > /tmp/reci.$$.out 2>&1
-err=$?
-grep -iv "\[y/n\]" /tmp/reci.$$.out
-rm /tmp/reci.$$.out
-(( $err == 0 )) && exit 250 # should fail, because we default to "No"
-exit 0
+$HG list -p /this/long/path/does/not/exist

@@ -1,4 +1,4 @@
-Workspace has multiple heads (or branches):
+Workspace has multiple outgoing heads (or branches):
 	2
 	1
 abort: you must merge before recommitting

@@ -25,16 +25,27 @@
 # Use is subject to license terms.
 #
 
-#
-# Recommit should fail if a workspace has more than one outgoing head
-# or branch
-#
+mkdir $REPOS/parent-merge
 
-#
-# Needs to be a copy, not a clone, so that the branches are still
-# outgoing.
-#
-cp -r $REPOS/simple-branch $REPOS/squish-simple-branch1
-cd $REPOS/squish-simple-branch1
+$HG clone -q $BASEWS $REPOS/parent-merge/parent
+cd $REPOS/parent-merge/parent
 
-$HG reci -fm "Test Squish" || true
+$HG up -qC 0
+echo a >> a
+$HG ci -qm "First head"
+$HG up -qC 0
+echo b >> b
+$HG ci -qm "Second head"
+
+$HG clone -q $REPOS/parent-merge/parent $REPOS/parent-merge/child
+cd $REPOS/parent-merge/child
+
+HGMERGE=/bin/true $HG merge -q
+$HG ci -m "Commit merge"
+
+# Recommit should fail for a parent v. parent merge.
+if $HG reci -m "Test"; then 
+    exit 255
+else
+    exit 0
+fi

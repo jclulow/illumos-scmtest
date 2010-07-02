@@ -21,39 +21,39 @@
 #
 
 #
-# Copyright (c) 2008, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
 #
 
-mkdir $REPOS/phantom-rm
+mkdir $REPOS/phantom-cp
 
-$HG clone -q $BASEWS $REPOS/phantom-rm/parent
-$HG clone -q $BASEWS $REPOS/phantom-rm/child
+$HG clone -q $BASEWS $REPOS/phantom-cp/parent
+$HG clone -q $BASEWS $REPOS/phantom-cp/child
 
-cd $REPOS/phantom-rm/parent
-$HG mv a renamed
-$HG ci -m "Rename"
+cd $REPOS/phantom-cp/parent
+hg cp a copied
+$HG ci -m "Copy"
 
-cd $REPOS/phantom-rm/child
-for i in c d e f; do
-	echo $i >> $i
+cd $REPOS/phantom-cp/child
+for elt in a b c; do
+    echo $elt >> $elt
 done
 $HG ci -m "Modified"
 
-$HG clone -q $REPOS/phantom-rm/child $REPOS/phantom-rm/merge
-cd $REPOS/phantom-rm/merge
+$HG clone -q $REPOS/phantom-cp/child $REPOS/phantom-cp/merge
+cd $REPOS/phantom-cp/merge
 
-$HG pull -q $REPOS/phantom-rm/parent
-$HG merge -q
+$HG pull -q $REPOS/phantom-cp/parent
+HGMERGE=internal:other $HG merge -q
 
 echo "-- Uncommitted"
 echo " -- Parent"
-$HG list -p $REPOS/phantom-rm/parent
+$HG list -p $REPOS/phantom-cp/parent
 echo " -- Child"
-$HG list -p $REPOS/phantom-rm/child
+$HG list -p $REPOS/phantom-cp/child
 echo
 $HG commit -m "Commit"
 echo "-- Committed"
 echo " -- Parent"
-$HG list -p $REPOS/phantom-rm/parent
+$HG list -p $REPOS/phantom-cp/parent
 echo " -- Child"
-$HG list -p $REPOS/phantom-rm/child
+$HG list -p $REPOS/phantom-cp/child

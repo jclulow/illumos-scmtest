@@ -1,0 +1,19 @@
+-- Uncommitted
+ -- Parent
+modified:
+	a
+	b
+	c
+ -- Child
+added:
+	copied (copied from a)
+
+-- Committed
+ -- Parent
+modified:
+	a
+	b
+	c
+ -- Child
+added:
+	copied (copied from a)

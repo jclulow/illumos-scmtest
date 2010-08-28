@@ -14,12 +14,7 @@ $HG merge -q
 $HG pbchk -qN
 RES=$?
 
-#
-# Should exit with 3.
-# This is because cddlchk will warn about the new file 'c' not having a CDDL,
-# cddlchk returns 2 for warnings, thus we end up doing 2|1 == 3
-#
-if [[ $RES -ne 3 ]]; then
+if [[ $RES -ne 1 ]]; then
 	print -u2 "Exited with $RES instead of 1"
 	exit 255
 else

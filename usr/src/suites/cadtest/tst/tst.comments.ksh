@@ -12,5 +12,3 @@ echo "--- Comments"
 $HG comments
 echo "--- Bugs"
 $HG bugs
-echo "--- ARCs"
-$HG arcs

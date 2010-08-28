@@ -20,12 +20,8 @@
 # CDDL HEADER END
 #
 
-#
-# Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
-#
-# ident	"%Z%%M%	%I%	%E% SMI"
-#
+# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2010, Richard Lowe
 
 #
 # Tests for Checks.Copyright
@@ -39,157 +35,37 @@ import onbld.Checks.Copyright as Copyright
 class TestCopyright(unittest.TestCase):
 	year = time.strftime('%Y')
 
-	def copycheck(self, fh):
+	def copycheck(self, string):
+                inp = StringIO(string)
 		out = StringIO()
-		Copyright.copyright(fh, filename='<test>', output=out)
+		Copyright.copyright(inp, filename='<test>', output=out)
 		return out.getvalue()
 
-	def testValid(self):
-		'copyright with valid copyright'
-		cr = StringIO('Copyright %s Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n' % self.year)
+        def testNone(self):
+                self.assertEqual(self.copycheck(''),
+                                 '<test>: no copyright message found\n')
+                self.failIf(not self.copycheck(''))
 
-		self.failUnless(not self.copycheck(cr))
+        def testOld(self):
+                self.assertEqual(self.copycheck('Copyright 2009'),
+                                 '<test>: no copyright claim for current year '
+                                 'found\n')
+                self.failIf(not self.copycheck('Copyright 2009'))
 
-	def testReservedMissing(self):
-		"copyright with 'All rights reserved' message missing"
-		cr = StringIO('Copyright %s Sun Microsystems, Inc.\n'
-			      'Use is subject to license terms.\n' % self.year)
+                self.assertEqual(self.copycheck('Copyright 2009\n'
+                                                'Copyright 01%s\n'
+                                                'Copyright 1998\n' % self.year),
+                                 '<test>: no copyright claim for current year '
+                                 'found\n')
+                self.failIf(not self.copycheck('Copyright 2009\n'
+                                           'Copyright 01%s\n'
+                                           'Copyright 1998\n'))
 
-		self.assertEqual(self.copycheck(cr),  "<test>: 1: " +
-				 "'All rights reserved.' message missing\n")
-
-	def testLicenseTerms(self):
-		"copyright without 'Use is subject to license terms' message"
-
-		# Missing
-		cr = StringIO(
-			'Copyright %s Sun Microsystems, Inc.  '
-			'All rights reserved.' % self.year)
-
-		self.assertEqual(self.copycheck(cr), "<test>: 1: " +
-				 "'Use is subject to license terms.' "
-				 "message missing\n")
-
-		# Misplaced
-		cr = StringIO('Copyright %s Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      '\n'
-			      'Use is subject to license Terms.' % self.year)
-
-		self.assertEqual(self.copycheck(cr), "<test>: 2: "
-				 "'Use is subject to license terms.' "
-				 "message missing\n")
-
-	def testOldCopyrightFormat(self):
-		"copyright with old copyright formats"
-		# With (c)
-		cr = StringIO('Copyright (c) %s Sun Microsystems, Inc.	'
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.' % self.year)
-
-		self.assertEqual(self.copycheck(cr), "<test>: 1: "
-				 "old copyright with '(c)'\n")
-
-		# with by
-		cr = StringIO('Copyright %s by Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n' % self.year)
-
-		self.assertEqual(self.copycheck(cr), "<test>: 1: "
-				 "old copyright with 'by'\n")
-
-		# with both
-		cr = StringIO('Copyright (c) %s by Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n' % self.year)
-
-		self.assertEqual(self.copycheck(cr), "<test>: 1: "
-				 "old copyright with '(c)'\n")
-
-	def testOutOfDateYear(self):
-		"copyright with out of date copyright year"
-		# Single
-		cr = StringIO('Copyright 2001 Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-
-		self.assertEqual(self.copycheck(cr), "<test>: 1: "
-				 "wrong copyright year 2001, "
-				 "should be %s\n" % self.year)
-
-		# Range
-		cr = StringIO('Copyright 1994-2001 Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994-2001, '
-				 'should be %s\n' % self.year)
-
-		# List
-		cr = StringIO('Copyright 1994,2001 Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994,2001, '
-				 'should be %s\n' % self.year)
-
-		# Both
-		cr = StringIO('Copyright 1994,1999-2001 Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994,1999-2001, '
-				 'should be %s\n' % self.year)
-
-		# List with spaces
-		cr = StringIO('Copyright 1994, 2001 Sun Microsystems, Inc.  '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994, 2001, '
-				 'should be %s\n' % self.year)
-
-		# Range, then list with spaces
-		cr = StringIO('Copyright 1994-1997, 2001 Sun Microsystems, Inc.'
-			      '  All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994-1997, 2001, '
-				 'should be %s\n' % self.year)
-
-		# List with spaces, then range
-		cr = StringIO('Copyright 1994, 1997-2001 Sun Microsystems, Inc.'
-			      '  All rights reserved.\n'
-			      'Use is subject to license terms.\n')
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'wrong copyright year 1994, 1997-2001, '
-				 'should be %s\n' % self.year)		
-
-
-	def testDoubleSpacing(self):
-		"copyright without double spacing"
-		# Single space 
-		cr = StringIO('Copyright %s Sun Microsystems, Inc. '
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n' % self.year)
-
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'need two spaces between copyright and all '
-				 'rights reserved phrases\n')
-
-		# Tab
-		cr = StringIO('Copyright %s Sun Microsystems, Inc.\t'
-			      'All rights reserved.\n'
-			      'Use is subject to license terms.\n' % self.year)
-
-		self.assertEqual(self.copycheck(cr), '<test>: 1: '
-				 'need two spaces between copyright and all '
-				 'rights reserved phrases\n')
+        def testValid(self):
+                self.failIf(self.copycheck('Copyright 2009\n'
+                                           'Copyright (c) 2010'))
+                self.failIf(self.copycheck('Copyright 1999,2010'))
+                self.failIf(self.copycheck('Copyright 1999-2010'))
 
 if __name__ == '__main__':
 	unittest.main()

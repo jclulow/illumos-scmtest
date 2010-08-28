@@ -25,8 +25,8 @@ CDDL HEADER END
 # Copyright 2007 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# ident	"%Z%%M%	%I%	%E% SMI"
-#
+
+# Copyright 2010, Richard Lowe
 
 #
 # Tests for Checks.Cddl
@@ -56,32 +56,31 @@ class TestCddl(unittest.TestCase):
 		"cddlchk with missing block"
 		f = StringIO('')
 		self.assertEqual(self.check(f, fname='test'),
-				 'Warning: No CDDL block in file test\n')
+				 'test: Warning: No CDDL block\n')
 
 	def testLeniency(self):
 		"cddlchk leniency with missing block"
 		f = StringIO('')
 		self.failIf(self.check(f, fname='test', lenient=True))
-    
+
 	def testIncomplete(self):
 		"cddlchk with incomplete block"
 		f = StringIO('\n'.join(CDDL[0:-2]))
 		self.assertEqual(self.check(f, fname='test'),
-				 'Error: Incomplete CDDL block in file test\n'
-				 '    at line 1\n'
-				 'Warning: No CDDL block in file test\n')
+				 'test: 1: Error: Incomplete CDDL block\n'
+				 'test: Warning: No CDDL block\n')
 
 	def testMultiple(self):
 		"cddlchk with multiple blocks"
 		f = StringIO('\n'.join(CDDL) + '\n\n' + '\n'.join(CDDL))
 		self.assertEqual(self.check(f, fname='test'),
-				 'Error: Multiple CDDL blocks in file test\n'
+				 'test: Error: Multiple CDDL blocks\n'
 				 '    at lines 1, 20\n')
 
 	# XXX: Must be a better way to copy a list...
 	def testOld(self):
 		"cddlchk with old block"
-		# Old version of CDDL 
+		# Old version of CDDL
 		bad = CDDL + []
 		bad[3] = 'Common Development and Distribution License, ' + \
 			 'Version 1.0 only'
@@ -91,8 +90,8 @@ class TestCddl(unittest.TestCase):
 
 		f = StringIO('\n'.join(bad))
 		self.assertEqual(self.check(f, fname='test'),
-			      '''Error: Invalid line in CDDL block in file test
-    at line 4, should be
+			      '''test: 4: Error: Invalid line in CDDL block:
+    should be
     \'Common Development and Distribution License (the \"License\").\'
     is
     \'Common Development and Distribution License, Version 1.0 only\'\n''')
@@ -118,13 +117,13 @@ class TestCddl(unittest.TestCase):
 			random.shuffle(l)
 			while l[0] in Cddl.CmntChrs or l == CDDL[line]:
 				random.shuffle(l)
-	    
+
 			bad[line] = ''.join(l)
 
 			f = StringIO('\n'.join(bad))
 			self.assertEqual(self.check(f, fname='test'),
-			      '''Error: Invalid line in CDDL block in file test
-    at line %d, should be
+			      '''test: %d: Error: Invalid line in CDDL block:
+    should be
     \'%s\'
     is
     \'%s\'\n''' % (line + 1, CDDL[line], bad[line]))

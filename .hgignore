@@ -1,0 +1,3 @@
+syntax: glob
+usr/src/suites/cadtest/results/*
+usr/src/suites/tooltest/tests/*.pyc

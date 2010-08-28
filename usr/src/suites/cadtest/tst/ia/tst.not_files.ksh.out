@@ -1,0 +1,7 @@
+-- Top level
+Copyright check:
+f: no copyright message found
+
+-- Subdirectory
+Copyright check:
+../f: no copyright message found

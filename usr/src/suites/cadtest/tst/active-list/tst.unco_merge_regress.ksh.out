@@ -1,0 +1,11 @@
+--- Uncommitted
+added:
+	new-1
+	new-2
+	new-a (renamed from a)
+	new-b (copied from b)
+	new-d (renamed from d)
+	new-e (copied from e)
+removed:
+	c
+	f

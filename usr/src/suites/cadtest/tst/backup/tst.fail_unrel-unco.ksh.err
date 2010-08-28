@@ -1,0 +1,6 @@
+abort: Error restoring workspace:
+couldn't restore uncommitted changes: changeset '<node>' is missing
+Your workspace is either not sufficiently up to date,
+or is unrelated to the workspace from which the backup was taken.
+
+Workspace may be partially restored

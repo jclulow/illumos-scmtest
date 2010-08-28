@@ -1,0 +1,5 @@
+The following file names are the original name of a rename and also present
+in the working directory:
+  a
+  b
+abort: recommit would clobber files

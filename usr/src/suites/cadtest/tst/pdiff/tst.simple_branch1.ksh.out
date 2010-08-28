@@ -1,0 +1,6 @@
+diff
+--- a/a
++++ b/a
+@@ -1,1 +1,2 @@
+ This is file a
++foo

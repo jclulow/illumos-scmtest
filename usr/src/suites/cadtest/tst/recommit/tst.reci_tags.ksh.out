@@ -1,0 +1,27 @@
+10 changesets found
+Removed tags:
+     10:	local over space keep (local)
+      6:	local with spaces flush (local)
+      6:	localflush (local)
+     10:	localoverkeep (local)
+      9:	repo over space keep
+      5:	repo with spaces flush
+      4:	repoflush
+      8:	repooverkeep
+tag 'local over space keep' now refers to revision 0
+tag 'localoverkeep' now refers to revision 0
+tag 'repo over space keep' now refers to revision 0
+tag 'repooverkeep' now refers to revision 0
+
+Erroneously remaining tags:
+
+Remaining tags:
+tip                                1
+repooverkeep                       0
+repokeep                           0
+repo with spaces keep              0
+repo over space keep               0
+localoverkeep                      0
+localkeep                          0
+local with spaces keep             0
+local over space keep              0

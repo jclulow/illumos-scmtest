@@ -24,6 +24,8 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2010, Richard Lowe
+#
 
 cp -r $REPOS/simple-mod $REPOS/squish-tags
 cd $REPOS/squish-tags
@@ -56,7 +58,7 @@ $HG tag -fr tip 'repo over space keep'
 $HG tag -flr tip localoverkeep
 $HG tag -flr tip 'local over space keep'
 
-$HG reci -m "Test squish" > squish.out.$$ || exit 254
+$HG reci -yqm "Test squish" > squish.out.$$ || exit 254
 
 # Nodes vary
 sed -e 's/\([0-9]\{1,\}\):[^:]\{1,\}/\1/' squish.out.$$ | \

@@ -24,6 +24,8 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2010 Richard Lowe
+#
 
 # Make sure we fail if the branch name isn't 'default'
 
@@ -32,15 +34,14 @@ cd $REPOS/branchchk-name
 
 $HG branch -q look-at-me-im-special
 echo a >> a
-$HG ci -qm "Change branch name"
+$HG ci -qm "Change branch name"  2>&1 >/dev/null
 
 $HG branchchk && exit 254 	# Should fail, wrong branch name
 
 echo
 $HG branch -qf default		# Fix the branch
-$HG ci -m "Reset branch"
+$HG ci -m "Reset branch" 2>&1 >/dev/null
 # Reci to make the created branch truly go away
-$HG reci -ym "Reset" | grep -v '^Do you want to backup files first?'
+$HG reci -yqm "Reset" | grep -v '^Do you want to backup files first?'
 
-echo
 $HG branchchk || exit 255	# Should succeed this time.

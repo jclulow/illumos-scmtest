@@ -24,6 +24,8 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2010, Richard Lowe
+#
 
 #
 # We create a situation whether there's nothing for us to recommit,
@@ -60,9 +62,7 @@ $HG reci -qm "Test" >/dev/null 2> reci.stderr || \
 echo
 
 # Dump stderr back in, sans strip crud
-grep -v '^saving bundle' reci.stderr > /dev/stderr
-
-/usr/xpg4/bin/grep -q '^saving bundle' reci.stderr || exit 254
+egrep -v '^sav(ing|ed) (backup )?bundle' reci.stderr > /dev/stderr
 
 echo "--- Post reci"
 $HG list 			# Should be blank

@@ -24,6 +24,8 @@
 # Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2010, Richard Lowe
+#
 
 #
 # Recommit should fail if a workspace has more than one outgoing head
@@ -37,4 +39,4 @@
 cp -r $REPOS/simple-branch $REPOS/squish-simple-branch1
 cd $REPOS/squish-simple-branch1
 
-$HG reci -fm "Test Squish" || true
+$HG reci -m "Test Squish" || true

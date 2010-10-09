@@ -20,10 +20,27 @@
 # CDDL HEADER END
 #
 
-# Copyright 2008, 2010, Richard Lowe
+#
+# Copyright 2010, Richard Lowe
+#
 
-cp -r $REPOS/no-change $REPOS/squish-no-change
-cd $REPOS/squish-no-change
+#
+# An edge case of file rename/copy is that it is possible to rename
+# the same file twice in the same changeset by copying the file twice,
+# and then deleting the original (renames are just copy/delete, in
+# general).  This can trip recommit as the source file name has now
+# been implicitly removed twice (as the source name of both renames),
+# and only one removal may be attempted by the recommit itself.
+#
+# See: 6927290 cdm recommit can fail if a file is removed more than once.
+#
 
-$HG reci -m "Test Squish"  || true
+$HG -q clone $BASEWS $REPOS/rename-twice
+cd $REPOS/rename-twice
 
+$HG cp a name1
+$HG cp a name2
+$HG rm a
+$HG ci -m "Commit"
+
+ksh $HARNESSDIR/tst/recommit/compare_reci.ksh $REPOS/rename-twice

@@ -24,6 +24,8 @@
 # Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+#
+# Copyright 2008, 2010, Richard Lowe
 
 if [[ -z "$1" ]]; then
 	print -u2 "Usage: compare_reci.ksh <workspace>"
@@ -36,7 +38,7 @@ RECI_REPO=${1}-reci
 cp -rP $ORIG_REPO $RECI_REPO 
 cd $RECI_REPO
 
-$HG reci -fm "Test Squish" > /tmp/reci.$$.out || exit 250
+$HG reci -yqm "Test Squish" > /tmp/reci.$$.out || exit 250
 grep -v 'Do you want to backup files first' /tmp/reci.$$.out
 rm /tmp/reci.$$.out
 
@@ -48,13 +50,18 @@ $HG -R $RECI_REPO list > squish.out.$$
 $HG branch -R $ORIG_REPO > orig-branch.out.$$
 $HG branch -R $RECI_REPO > squish-branch.out.$$
 
+# Deal with needing -t in Hg 1.5, but not having it in any lesser version.
+HEADS_ARGS="-q"
+$HG heads $HEADS_ARGS -t -R $ORIG_REPO > /dev/null 2>&1
+[[ $? == 0 ]] && HEADS_ARGS="$HEADS_ARGS -t"
+
 # Assume that the reci'd head is the parent of the original repo 
 ORIG_HEAD=$($HG parent -q -R $ORIG_REPO )
-$HG heads -q -R $ORIG_REPO | grep -v $ORIG_HEAD > orig-heads.out.$$
+$HG heads $HEADS_ARGS -R $ORIG_REPO | grep -v $ORIG_HEAD > orig-heads.out.$$
 
 # ... and that the new changeset will be the tip of the reci'd repo
 RECI_HEAD=$($HG tip -q -R $RECI_REPO)
-$HG heads -q -R $RECI_REPO | grep -v $RECI_HEAD > squish-heads.out.$$
+$HG heads $HEADS_ARGS -R $RECI_REPO | grep -v $RECI_HEAD > squish-heads.out.$$
 
 cmp orig.out.$$ squish.out.$$ || exit 252
 cmp orig-branch.out.$$ squish-branch.out.$$ || exit 253

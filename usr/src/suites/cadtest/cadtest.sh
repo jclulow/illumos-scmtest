@@ -24,6 +24,8 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2010, Richard Lowe
+#
 
 HARNESSDIR=$(cd $(dirname $0) && pwd)
 DTEST=${HARNESSDIR}/dtest.pl
@@ -102,3 +104,4 @@ else
 	    rm -rf $REPOS $BACKUPDIR
 fi
 
+exit $FAILED

@@ -30,7 +30,7 @@ $HG clone -q $BASEWS $REPOS/phantom-cp/parent
 $HG clone -q $BASEWS $REPOS/phantom-cp/child
 
 cd $REPOS/phantom-cp/parent
-hg cp a copied
+$HG cp a copied
 $HG ci -m "Copy"
 
 cd $REPOS/phantom-cp/child

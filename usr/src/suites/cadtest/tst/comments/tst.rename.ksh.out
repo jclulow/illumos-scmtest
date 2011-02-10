@@ -1,0 +1,22 @@
+parent tip: 0
+local tip:  4
+entries:
+  - rename-4
+    parentname: a
+    change: added
+    renamed: True
+    comments:
+      Comment 1
+      Comment 2
+      Comment 3
+      Comment 4
+
+  - rename-3
+    parentname: a
+    change: added
+    renamed: True
+    comments:
+      Comment 1
+      Comment 2
+      Comment 3
+

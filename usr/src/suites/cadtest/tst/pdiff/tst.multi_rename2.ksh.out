@@ -1,15 +1,9 @@
-diff
---- a/a
-+++ /dev/null
-@@ -1,1 +0,0 @@
--This is file a
-diff
+diff --git a/b b/b
+deleted file mode 100644
 --- a/b
 +++ /dev/null
 @@ -1,1 +0,0 @@
 -This is file b
-diff
---- /dev/null
-+++ b/rename2
-@@ -0,0 +1,1 @@
-+This is file a
+diff --git a/a b/rename2
+rename from a
+rename to rename2

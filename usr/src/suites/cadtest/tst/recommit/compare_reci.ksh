@@ -24,31 +24,62 @@
 # Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2011, Richard Lowe
 #
-# Copyright 2008, 2010, Richard Lowe
+
+EXPECTED_OUT=1
+
+function usage {
+    	print -u2 "Usage: compare_reci.ksh [-n expected_outgoing] <workspace>"
+	exit 2
+}
+
+while getopts 'n:' opt; do
+    case $opt in
+        n) EXPECTED_OUT="$OPTARG";;
+        ?) usage;;
+    esac
+done
+
+shift $(($OPTIND - 1))
 
 if [[ -z "$1" ]]; then
-	print -u2 "Usage: compare_reci.ksh <workspace>"
-	exit 2
+    usage
 fi
+
+. $HARNESSDIR/lib/common.ksh
 
 ORIG_REPO=$1
 RECI_REPO=${1}-reci
 
-cp -rP $ORIG_REPO $RECI_REPO 
+cp -rP $ORIG_REPO $RECI_REPO
+
 cd $RECI_REPO
 
 $HG reci -yqm "Test Squish" > /tmp/reci.$$.out || exit 250
 grep -v 'Do you want to backup files first' /tmp/reci.$$.out
 rm /tmp/reci.$$.out
 
-gdiff -rux .hg $ORIG_REPO $RECI_REPO || exit 251
+OUT=$($HG out -q --template x | wc -c)
+if (( $OUT != $EXPECTED_OUT )); then
+    echo "Recommit did not leave $EXPECTED_OUT outgoing change(s)"
+    exit 1
+fi
 
-$HG -R $ORIG_REPO list > orig.out.$$
-$HG -R $RECI_REPO list > squish.out.$$
+ws_compare $ORIG_REPO $RECI_REPO
+res=$?
 
-$HG branch -R $ORIG_REPO > orig-branch.out.$$
-$HG branch -R $RECI_REPO > squish-branch.out.$$
+[[ $res != 0 ]] && exit $res
+
+# Deal with needing -t in Hg 1.5, but not having it in any lesser version.
+HEADS_ARGS="-q"
+$HG heads $HEADS_ARGS -t -R $ORIG_REPO > /dev/null 2>&1
+[[ $? == 0 ]] && HEADS_ARGS="$HEADS_ARGS -t"
+
+# Deal with needing -t in Hg 1.5, but not having it in any lesser version.
+HEADS_ARGS="-q"
+$HG heads $HEADS_ARGS -t -R $ORIG_REPO > /dev/null 2>&1
+[[ $? == 0 ]] && HEADS_ARGS="$HEADS_ARGS -t"
 
 # Deal with needing -t in Hg 1.5, but not having it in any lesser version.
 HEADS_ARGS="-q"
@@ -63,11 +94,9 @@ $HG heads $HEADS_ARGS -R $ORIG_REPO | grep -v $ORIG_HEAD > orig-heads.out.$$
 RECI_HEAD=$($HG tip -q -R $RECI_REPO)
 $HG heads $HEADS_ARGS -R $RECI_REPO | grep -v $RECI_HEAD > squish-heads.out.$$
 
-cmp orig.out.$$ squish.out.$$ || exit 252
-cmp orig-branch.out.$$ squish-branch.out.$$ || exit 253
 cmp orig-heads.out.$$ squish-heads.out.$$ || exit 254
 
 (cd $ORIG_REPO && stat --printf="%n %a %A %F %N\n" *) > orig-fsstat.out.$$
 (cd $RECI_REPO && stat --printf="%n %a %A %F %N\n" * | grep -v '\.out\.') > squish-fsstat.out.$$
 
-cmp orig-fsstat.out.$$ squish-fsstat.out.$$ || exit 255
+cmp orig-heads.out.$$ squish-heads.out.$$ || exit 255

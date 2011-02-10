@@ -1,0 +1,9 @@
+-- Uncommitted
+modified:
+	a (renamed from b)
+-- Cached
+modified:
+	a (renamed from b)
+-- Committed
+modified:
+	a (renamed from b)

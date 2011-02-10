@@ -1,11 +1,11 @@
-diff
---- /dev/null
+diff --git a/b b/changed
+copy from b
+copy to changed
+--- a/b
 +++ b/changed
-@@ -0,0 +1,2 @@
-+This is file b
+@@ -1,1 +1,2 @@
+ This is file b
 +Changed file
-diff
---- /dev/null
-+++ b/unmodified
-@@ -0,0 +1,1 @@
-+This is file a
+diff --git a/a b/unmodified
+copy from a
+copy to unmodified

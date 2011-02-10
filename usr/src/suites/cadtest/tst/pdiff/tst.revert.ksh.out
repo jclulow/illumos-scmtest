@@ -1,14 +1,7 @@
-diff
---- a/b
-+++ /dev/null
-@@ -1,1 +0,0 @@
--This is file b
-diff
---- /dev/null
-+++ b/b.new
-@@ -0,0 +1,1 @@
-+This is file b
-diff
+diff --git a/b b/b.new
+rename from b
+rename to b.new
+diff --git a/d b/d
 --- a/d
 +++ b/d
 @@ -1,1 +1,1 @@

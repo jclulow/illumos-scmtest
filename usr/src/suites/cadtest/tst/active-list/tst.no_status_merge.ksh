@@ -24,16 +24,20 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2008, 2011, Richard Lowe
+#
 
 #
 # We remove a file in the parent,
 # clone a child at a point before that removal
 # Modify that same file in the child
 # bringover the removal
-# merge (which is a conflict child mod v. parent removal), hg will default 'keep'
 #
-# This will mean the working context is modified (the merge) but contains no files.
-# .files() and .status() will be blank
+# merge (which is a conflict child mod v. parent removal), hg will
+#    default 'keep'
+#
+# This will mean the working context is modified (the merge) but
+# contains no files.  .files() and .status() will be blank
 #
 
 
@@ -50,7 +54,10 @@ $HG ci -m "Child"
 $HG pull -q $REPOS/no-status-merge/parent
 $HG merge > /dev/null
 
-echo "--- Uncommitted"
+echo "-- Uncommitted"
 $HG list			# On failure, 'c' will show as modified, not added
-echo "--- Committed"
+echo "-- Cached"
+$HG changed -yi > /dev/null
+$HG list
+echo "-- Committed"
 $HG list

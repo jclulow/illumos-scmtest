@@ -1,0 +1,12 @@
+parent tip: -1
+local tip:  0
+entries:
+  - a
+    parentname: None
+    change: added
+    renamed: False
+    comments:
+      Committed
+
+-----
+Committed

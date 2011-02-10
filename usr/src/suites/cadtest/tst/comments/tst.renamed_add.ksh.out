@@ -1,0 +1,12 @@
+parent tip: 0
+local tip:  3
+entries:
+  - newer-rename
+    parentname: None
+    change: added
+    renamed: False
+    comments:
+      Initial
+      Rename one
+      Rename two
+

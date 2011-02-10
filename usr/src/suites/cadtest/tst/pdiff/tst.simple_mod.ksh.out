@@ -1,16 +1,16 @@
-diff
+diff --git a/a b/a
 --- a/a
 +++ b/a
 @@ -1,1 +1,2 @@
  This is file a
 +With an extra line
-diff
+diff --git a/b b/b
 --- a/b
 +++ b/b
 @@ -1,1 +1,1 @@
 -This is file b
 +This here is file b
-diff
+diff --git a/c b/c
 --- a/c
 +++ b/c
 @@ -1,1 +1,1 @@

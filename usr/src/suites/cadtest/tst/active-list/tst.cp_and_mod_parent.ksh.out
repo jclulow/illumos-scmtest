@@ -1,0 +1,15 @@
+-- Uncommitted
+added:
+	copy1 (copied from a)
+modified:
+	a
+-- Cached
+added:
+	copy1 (copied from a)
+modified:
+	a
+-- Committed
+added:
+	copy1 (copied from a)
+modified:
+	a

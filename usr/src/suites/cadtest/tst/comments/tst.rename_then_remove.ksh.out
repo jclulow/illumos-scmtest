@@ -1,0 +1,17 @@
+-- Full
+rename 1
+rename 2
+rename 3
+Committed
+
+-- AL
+parent tip: 0
+local tip:  4
+entries:
+  - a
+    parentname: None
+    change: removed
+    renamed: False
+    comments:
+      rename 1
+

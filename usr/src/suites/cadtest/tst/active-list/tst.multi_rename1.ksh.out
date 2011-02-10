@@ -3,6 +3,11 @@ added:
 	rename1 (renamed from b)
 removed:
 	a
+-- Cached
+added:
+	rename1 (renamed from b)
+removed:
+	a
 -- Committed
 added:
 	rename1 (renamed from b)

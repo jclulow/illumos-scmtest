@@ -1,0 +1,12 @@
+-- Uncommitted
+added:
+	new (renamed from a)
+	not-new
+-- Cached
+added:
+	new (renamed from a)
+	not-new
+-- Committed
+added:
+	new (renamed from a)
+	not-new

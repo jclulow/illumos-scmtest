@@ -24,7 +24,7 @@
 # Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
-# Copyright 2008, 2010, Richard Lowe
+# Copyright 2008, 2011, Richard Lowe
 #
 
 #

@@ -1,6 +1,9 @@
 -- Uncommitted
 removed:
 	a
+-- Cached
+removed:
+	a
 -- Committed
 removed:
 	a

@@ -20,9 +20,7 @@
 # CDDL HEADER END
 #
 
-#
 # Copyright 2010, Richard Lowe
-#
 
 #
 # An edge case of file rename/copy is that it is possible to rename

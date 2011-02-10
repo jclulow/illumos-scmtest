@@ -1,0 +1,12 @@
+diff --git a/a b/a
+--- a/a
++++ b/a
+@@ -1,1 +1,1 @@
+-This is file a
++This is file b
+diff --git a/b b/b
+deleted file mode 100644
+--- a/b
++++ /dev/null
+@@ -1,1 +0,0 @@
+-This is file b

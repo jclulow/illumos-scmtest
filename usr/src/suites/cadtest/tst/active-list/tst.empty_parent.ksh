@@ -24,6 +24,8 @@
 # Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
 # Use is subject to license terms.
 #
+# Copyright 2009, 2011, Richard Lowe
+#
 
 $HG clone -q $EMPTYWS $REPOS/empty-parent
 cd $REPOS/empty-parent
@@ -31,8 +33,11 @@ cd $REPOS/empty-parent
 echo a > a
 $HG add a
 
-echo "--- Uncommitted"
+echo "-- Uncommitted"
 $HG list
-echo "--- Committed"
+echo "-- Cached"
+$HG changed -yi >/dev/null
+$HG list
+echo "-- Committed"
 $HG ci -qm "Committed"
 $HG list

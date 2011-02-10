@@ -20,15 +20,6 @@
 # CDDL HEADER END
 #
 
-#
-# Copyright 2009 Sun Microsystems, Inc.  All rights reserved.
-# Use is subject to license terms.
-#
+# Copyright 2008, 2011, Richard Lowe
 
-if [[ -z "$1" ]]; then
-	print -u2 "Usage: constant_pdiff <worksapce>"
-	exit 2
-fi
-
-cd $1
-$HG pdiff | perl -npe 's/^diff.*/diff/; s/^([-+]{3}) ([^\s]+)\s.*$/$1 $2/'
+ksh $HARNESSDIR/tst/recommit/compare_reci.ksh $REPOS/sep-clobber-rename
